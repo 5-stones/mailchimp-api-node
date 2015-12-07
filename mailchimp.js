@@ -6,6 +6,7 @@
 
   OPTS = {
     host: 'api.mailchimp.com',
+    baseHost: 'api.mailchimp.com',
     port: 443,
     prefix: '/2.0/',
     method: 'POST',
@@ -47,11 +48,12 @@
       pieces = OPTS.host.split('.');
       if (pieces.length === 3) {
         dc = 'us1';
-        parts = params.apikey.split('-');
-        if (parts.length === 2) {
-          dc = parts[1];
-        }
-        OPTS.host = dc + '.' + OPTS.host;
+        OPTS.host = dc + '.' + OPTS.baseHost;
+      }
+      parts = params.apikey.split('-');
+      if (parts.length === 2) {
+        dc = parts[1];
+        OPTS.host = dc + '.' + OPTS.baseHost;
       }
       params = new Buffer(JSON.stringify(params), 'utf8');
       if (this.debug) {
